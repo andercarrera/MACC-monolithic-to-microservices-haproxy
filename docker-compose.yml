@@ -1,0 +1,47 @@
+version: '3.1'
+services:
+  haproxy:
+    build: ./haproxy
+    container_name: haproxy
+    ports:
+      - "80:80"
+      - '${HAPROXY_PORT}:${HAPROXY_PORT}'
+      - '${HAPROXY_STATS_PORT}:${HAPROXY_STATS_PORT}'
+    expose:
+      - "80"
+      - '${HAPROXY_PORT}'
+      - '${HAPROXY_STATS_PORT}'
+    volumes:
+      - ./certs/haproxy/haproxy.pem:/usr/local/etc/haproxy/haproxy.pem
+    networks:
+      lb7_network:
+        ipv4_address: '${HAPROXY_IP}'
+    environment:
+      - 'FLASK_SERVER_IP=${FLASK_SERVER_IP}'
+      - 'CLIENT_PORT=${CLIENT_PORT}'
+      - 'DELIVERY_PORT=${DELIVERY_PORT}'
+      - 'MACHINE_PORT=${MACHINE_PORT}'
+      - 'ORDER_PORT=${ORDER_PORT}'
+      - 'PAYMENT_PORT=${PAYMENT_PORT}'
+      - 'LOGS_PORT=${LOGS_PORT}'
+      - 'HAPROXY_PORT=${HAPROXY_PORT}'
+      - 'HAPROXY_STATS_PORT=${HAPROXY_STATS_PORT}'
+      - 'GUNICORN_PORT=${GUNICORN_PORT}'
+    restart: unless-stopped
+    #db:
+    #image: mysql
+    #restart: always
+    #ports:
+    #  - '13306:${MYSQL_PORT}'
+    #environment:
+    #  MYSQL_DATABASE: '${MYSQL_DATABASE}'
+    #  MYSQL_USER: '${MYSQL_USER}'
+    #  MYSQL_PASSWORD: '${MYSQL_PASSWORD}'
+    #  MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
+networks:
+  lb7_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: '${NETWORK_SUBNET}'
