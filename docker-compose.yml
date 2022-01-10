@@ -7,10 +7,12 @@ services:
       - "80:80"
       - '${HAPROXY_PORT}:${HAPROXY_PORT}'
       - '${HAPROXY_STATS_PORT}:${HAPROXY_STATS_PORT}'
+      - '15671:15671'
     expose:
       - "80"
       - '${HAPROXY_PORT}'
       - '${HAPROXY_STATS_PORT}'
+      - '15671'
     volumes:
       - ./certs/haproxy/haproxy.pem:/usr/local/etc/haproxy/haproxy.pem
     networks:
@@ -27,6 +29,7 @@ services:
       - 'HAPROXY_PORT=${HAPROXY_PORT}'
       - 'HAPROXY_STATS_PORT=${HAPROXY_STATS_PORT}'
       - 'GUNICORN_PORT=${GUNICORN_PORT}'
+      - 'RABBITMQ_IP=${RABBITMQ_IP}'
     restart: unless-stopped
     #db:
     #image: mysql
