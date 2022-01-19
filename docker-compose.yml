@@ -19,7 +19,6 @@ services:
     environment:
       - 'HAPROXY_PORT=${HAPROXY_PORT}'
       - 'HAPROXY_STATS_PORT=${HAPROXY_STATS_PORT}'
-      - 'GUNICORN_PORT=${GUNICORN_PORT}'
       - 'RABBITMQ_IP=${RABBITMQ_IP}'
       - 'FLASK_IP=${FLASK_IP}'
     restart: unless-stopped
