@@ -4,12 +4,10 @@ services:
     build: ./haproxy
     container_name: haproxy
     ports:
-      - "80:80"
       - '${HAPROXY_PORT}:${HAPROXY_PORT}'
       - '${HAPROXY_STATS_PORT}:${HAPROXY_STATS_PORT}'
       - '15671:15671'
     expose:
-      - "80"
       - '${HAPROXY_PORT}'
       - '${HAPROXY_STATS_PORT}'
       - '15671'
@@ -19,17 +17,11 @@ services:
       lb7_network:
         ipv4_address: '${HAPROXY_IP}'
     environment:
-      - 'FLASK_SERVER_IP=${FLASK_SERVER_IP}'
-      - 'CLIENT_PORT=${CLIENT_PORT}'
-      - 'DELIVERY_PORT=${DELIVERY_PORT}'
-      - 'MACHINE_PORT=${MACHINE_PORT}'
-      - 'ORDER_PORT=${ORDER_PORT}'
-      - 'PAYMENT_PORT=${PAYMENT_PORT}'
-      - 'LOGS_PORT=${LOGS_PORT}'
       - 'HAPROXY_PORT=${HAPROXY_PORT}'
       - 'HAPROXY_STATS_PORT=${HAPROXY_STATS_PORT}'
       - 'GUNICORN_PORT=${GUNICORN_PORT}'
       - 'RABBITMQ_IP=${RABBITMQ_IP}'
+      - 'FLASK_IP=${FLASK_IP}'
     restart: unless-stopped
     #db:
     #image: mysql
